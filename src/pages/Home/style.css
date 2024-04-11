@@ -1,0 +1,24 @@
+h1{
+    background-color: red;
+}
+.row{
+    margin: 0!important;
+}
+
+.findArea{
+    padding-left: 0!important;
+    padding-right: 0!important;
+}
+.findArea button{
+    padding-left: 5px;
+    border-radius: 0;
+}
+#areaDetailsView{
+    display: none;
+}
+.areaFindDetailView{
+    display: block;
+}
+.areaFindDetailViewHide{
+    display: none;
+}

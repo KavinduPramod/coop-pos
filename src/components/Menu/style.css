@@ -1,0 +1,29 @@
+.menu_list{
+    position: fixed!important;
+    display: flex;
+    bottom: 0;
+}
+.menu_list .col-3{
+    padding: 0;
+}
+.menu_list{
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+}
+.menu_list .col-3 button{
+    border-radius: 0;
+    border: 1px solid white;
+    background-color: rgb(9, 6, 54);
+}
+.icon{
+    width: 30px!important;
+    height: 30px!important;
+}
+.active{
+    background-color: rgb(15, 8, 108)!important;
+}
+
+.deactive{
+    /* background-color: rgb(9, 6, 54)!important; */
+}

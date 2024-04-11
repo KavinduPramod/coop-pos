@@ -1,0 +1,9 @@
+.title_top{
+    padding-top: 15px;
+    padding-bottom: 15px;
+    text-align: center;
+    font-weight: bold;
+    color: white;
+    background-color: rgb(9, 6, 54);
+    position: fixed!important;
+}

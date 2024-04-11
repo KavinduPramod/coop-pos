@@ -1,0 +1,15 @@
+.mainTitle{
+  font-weight: bold;
+}
+.viewContainer{
+  max-width: 500px;
+}
+.mainLayout{
+  margin-top: 50px;
+  margin-bottom: 60px;
+}
+.form-control:focus {
+  border-color: #ced4da; /* Set the border color to match Bootstrap's default */
+  box-shadow: none!important; /* Remove any box-shadow */
+  outline: 0!important; /* Remove the outline */
+}
