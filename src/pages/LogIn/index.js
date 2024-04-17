@@ -45,12 +45,12 @@ const LoginPage = () => {
   }, [txtUserName, txtPassword, replace]);
 
   return (
-    <div class="main_wrapper">
-      <div class="wrapper">
-        <div class="text-center mt-4 name">
+    <div className="main_wrapper">
+      <div className="wrapper">
+        <div className="text-center mt-4 name">
           POS System
         </div>
-        <form class="p-3 mt-3">
+        <form className="p-3 mt-3">
           <div>
             <label className='lblText '>User Name</label>
             <input
@@ -62,7 +62,7 @@ const LoginPage = () => {
               onChange={e => setUserName(e.target.value)}
             />
           </div>
-          <div class="mt-2">
+          <div className="mt-2">
             <label className='lblText'>Password</label>
             <input
               className="form-control no-border"

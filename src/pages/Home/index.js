@@ -136,7 +136,7 @@ const HomePage = () => {
             <div className='row'>
               <div className='col-9 findArea'>
                 <input 
-                  class="form-control border-1 rounded-0" 
+                  className="form-control border-1 rounded-0" 
                   type="text" 
                   id="txtEnterNIC" 
                   placeholder="Enter Customer No or NIC" 
@@ -181,7 +181,7 @@ const HomePage = () => {
               <label>Account Name : </label>
             </div>
             <div className='col-7'>
-              <input class="form-control" type="text" id="txtEnterNIC" disabled value={lblAccountName==""?"-":lblAccountName}/>
+              <input className="form-control" type="text" id="txtEnterNIC" disabled value={lblAccountName==""?"-":lblAccountName}/>
             </div>
           </div>
           <div className='row mb-2'>
@@ -189,7 +189,7 @@ const HomePage = () => {
               <label>Open Date : </label>
             </div>
             <div className='col-7'>
-              <input class="form-control" type="text" id="txtEnterNIC" disabled value={lblOpenDate==""?"-":lblOpenDate}/>
+              <input className="form-control" type="text" id="txtEnterNIC" disabled value={lblOpenDate==""?"-":lblOpenDate}/>
             </div>
           </div>
           <div className='row mb-2'>
@@ -197,7 +197,7 @@ const HomePage = () => {
               <label>Balance : </label>
             </div>
             <div className='col-7'>
-              <input class="form-control" type="text" id="txtEnterNIC" disabled value={lblBalance==""?0:lblBalance} />
+              <input className="form-control" type="text" id="txtEnterNIC" disabled value={lblBalance==""?0:lblBalance} />
             </div>
           </div>
           <div className='row mb-2'>
@@ -205,7 +205,7 @@ const HomePage = () => {
               <label>Interest : </label>
             </div>
             <div className='col-7'>
-              <input class="form-control" type="text" id="txtEnterNIC" disabled value={lblInterest==""?0:lblInterest}/>
+              <input className="form-control" type="text" id="txtEnterNIC" disabled value={lblInterest==""?0:lblInterest}/>
             </div>
           </div>
           <div className='row mb-2'>
@@ -213,7 +213,7 @@ const HomePage = () => {
               <label>Pen. + Fee : </label>
             </div>
             <div className='col-7'>
-              <input class="form-control" type="text" id="txtEnterNIC" disabled value={lblPassDue==""?"-":lblPassDue}/>
+              <input className="form-control" type="text" id="txtEnterNIC" disabled value={lblPassDue==""?"-":lblPassDue}/>
             </div>
           </div>
           <div className='row mb-2'>
@@ -221,7 +221,7 @@ const HomePage = () => {
               <label>Installment : </label>
             </div>
             <div className='col-7'>
-              <input class="form-control" type="text" id="txtEnterNIC" disabled value={lblInstallment==""?0:lblInstallment} />
+              <input className="form-control" type="text" id="txtEnterNIC" disabled value={lblInstallment==""?0:lblInstallment} />
             </div>
           </div>
           <div className='row mb-2'>
@@ -229,7 +229,7 @@ const HomePage = () => {
               <label>Passdue : </label>
             </div>
             <div className='col-7'>
-              <input class="form-control" type="text" id="txtEnterNIC" disabled value={lblPassDue==""?0:lblPassDue} />
+              <input className="form-control" type="text" id="txtEnterNIC" disabled value={lblPassDue==""?0:lblPassDue} />
             </div>
           </div>
           <div className='row mb-2'>
@@ -237,12 +237,12 @@ const HomePage = () => {
               <label>Passdue Date : </label>
             </div>
             <div className='col-7'>
-              <input class="form-control" type="text" id="txtEnterNIC" disabled value={lblPassdueDate==""?"-":lblPassdueDate}/>
+              <input className="form-control" type="text" id="txtEnterNIC" disabled value={lblPassdueDate==""?"-":lblPassdueDate}/>
             </div>
           </div>
           <div className='row mb-2'>
             <div className='col-12 mb-2'>
-              <input class="form-control" type="text" id="txtEnterNIC" placeholder='Enter Deposit Amount'
+              <input className="form-control" type="text" id="txtEnterNIC" placeholder='Enter Deposit Amount'
                 value={txtEnterPrice}
                 onChange={e => setEnterPrice(e.target.value)} />
             </div>
