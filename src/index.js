@@ -5,6 +5,9 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+// Before any API requests are made
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+
 root.render(
   <React.StrictMode>
     <App />
