@@ -5,7 +5,7 @@ const config: CapacitorConfig = {
   appName: 'coop-mobile-pos-web',
   webDir: 'build',
   server: {
-    url:'https://mellifluous-torrone-9758de.netlify.app',
+    url:'https://effortless-starship-b5b86e.netlify.app',
     cleartext:true
   }
 };

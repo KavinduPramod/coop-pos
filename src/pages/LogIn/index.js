@@ -1,17 +1,15 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import './style.css';
-import { useCallback, useState } from 'react'
-import { Link, useHistory, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { Api } from '../../utils/Api'
-import { setToken } from '../../utils/localstorage';
 import swal from 'sweetalert';
 
 
 const LoginPage = () => {
 
   const { replace, push } = useNavigate();
-  const [txtUserName, setUserName] = useState();
-  const [txtPassword, setPassword] = useState();
+  const [txtUserName, setUserName] = useState('');
+  const [txtPassword, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [responseData, setResponseData] = useState(null);
   const navigate = useNavigate();

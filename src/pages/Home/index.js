@@ -7,17 +7,17 @@ import swal from 'sweetalert';
 
 const HomePage = () => {
 
-  const [txtEnterNIC, setEnterNIC] = useState();
-  const [lblSetTitle, setSetTitle] = useState();
+  const [txtEnterNIC, setEnterNIC] = useState('');
+  const [lblSetTitle, setSetTitle] = useState('');
   const [lblSetID, setSetID] = useState("");
   const [lblSetName, setSetName] = useState("");
   const [lblSetNIC, setSetNIC] = useState("");
   const [lblSetCustomerNumber, setSetCustomerNumber] = useState("");
-  const [lblRefNumber, setRefNumber] = useState();
-  const [loginUserBranchID, setLogInUserBranchID] = useState();
-  const [loginUserID, setLogInUserID] = useState();
-  const [loginUserName, setLogInUserName] = useState();
-  const [accountID, setSelectAccountID] = useState();
+  const [lblRefNumber, setRefNumber] = useState('');
+  const [loginUserBranchID, setLogInUserBranchID] = useState('');
+  const [loginUserID, setLogInUserID] = useState('');
+  const [loginUserName, setLogInUserName] = useState('');
+  const [accountID, setSelectAccountID] = useState('');
 
   const [lblAccountName, setAccountNumber] = useState("");
   const [lblOpenDate, setOpenDate] = useState("");
@@ -27,10 +27,10 @@ const HomePage = () => {
   const [lblInstallment, setInstallment] = useState("");
   const [lblPassDue, setPassdue] = useState("");
   const [lblPassdueDate, setPassdueDate] = useState("");
-  const [lblPlAccountID, setPlAccountID] = useState();
-  const [lblGlAccountID, setGlAccountID] = useState();
-  const [txtEnterPrice, setEnterPrice] = useState();
-  const [loanType, setLoanType] = useState();
+  const [lblPlAccountID, setPlAccountID] = useState('');
+  const [lblGlAccountID, setGlAccountID] = useState('');
+  const [txtEnterPrice, setEnterPrice] = useState('');
+  const [loanType, setLoanType] = useState('');
   const [visibleFindAreaFindDetail, setVisibleFindAreaFindDetail] = useState(false);
 
   useEffect(() => {
