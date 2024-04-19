@@ -1,4 +1,4 @@
-import { React, useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './style.css';
 import { Api } from '../../utils/Api';
 import Menu from '../../components/Menu';
@@ -9,15 +9,13 @@ const LastTransactionPage = () => {
   const [loginUserBranchID, setLogInUserBranchID] = useState();
   const [loginUserID, setLogInUserID] = useState();
   const [loginUserName, setLogInUserName] = useState();
-  const [transactionData, setTransactionData] = useState([]);
-  const [transactionDataSize, setTransactionDataSize] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("transaction");
   const printElementRef = useRef(null);
 
   useEffect(() => {
-    // Fetch user data and transactions on component mount
     const fetchData = async () => {
+      // Fetch user data and transactions on component mount
       let data = JSON.parse(sessionStorage.getItem('userKey'));
       setLogInUserBranchID(data.branch_id);
       setLogInUserID(data.user_id);
@@ -35,25 +33,10 @@ const LastTransactionPage = () => {
       };
       
       const response = await Api.postRequest('/api/transaction/findTransaction', body);
-      if (response.code === 404) {
-        setTransactionDataSize(0);
-      } else {
-        setTransactionData(response);
-      }
-      
       setIsLoading(false);
     };
 
     fetchData();
-
-    // Define the 'lee' object and its method 'funAndroid' globally
-    window.lee = {
-      funAndroid: function(base64Data) {
-        // This method will be called when invoked from JavaScript
-        console.log("Received data from JavaScript:", base64Data);
-        // Additional logic for handling the received data
-      }
-    };
   }, []);
 
   const handleClick = (value) => {
@@ -63,14 +46,18 @@ const LastTransactionPage = () => {
   const handlePrintSummary = () => {
     if (printElementRef.current) {
       html2canvas(printElementRef.current).then(canvas => {
-        const image = canvas.toDataURL("image/png");
-        console.log("Image captured:", image);
-        window.lee.funAndroid(image);
-        // Here you can perform further actions with the captured image
-        // For example, you can send it to the server, download it, etc.
+        const imageData = canvas.toDataURL("image/png");
+        // Call the method to send the image data to the Android app
+        sendImageToAndroidApp(imageData);
       });
     }
   };
+
+  // Define JavaScript interface
+  const sendImageToAndroidApp = (imageData) => {
+    window.ReactNativeWebView.postMessage(imageData);
+  };
+
 
   return (
     <div className='viewContainer'>
@@ -101,7 +88,6 @@ const LastTransactionPage = () => {
             </div>
           </div>
         </div>
-        {/* Add your other tab content here */}
       </div>
       <Menu value={"Receipt"} />
     </div>
