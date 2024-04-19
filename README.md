@@ -68,3 +68,33 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+## The process of creating the Android app with ionic capacitors
+
+fist initialize the ionic CLI.
+```
+npm install -g @ionic/cli @capacitor/cli
+```
+Then initialize the capacitor with the project '@ionic/react' in this case
+```
+ionic init
+npx cap init
+```
+After that run
+```
+npm run build
+```
+Copy your web assets to the native project directories
+```
+npx cap copy
+```
+Add the platform
+```
+npx cap add android
+npx cap add ios
+```
+Now if you wish to open the built android ap or ios app
+```
+npx cap open ios
+npx cap open android
+```
