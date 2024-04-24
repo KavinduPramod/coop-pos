@@ -207,7 +207,7 @@ const HomePage = () => {
             <div className='col-7'>
               <input className="form-control" type="text" id="txtEnterNIC" disabled value={lblInterest==""?0:lblInterest}/>
             </div>
-          </div>
+          </div> 
           <div className='row mb-2'>
             <div className='col-5 text-end'>
               <label>Pen. + Fee : </label>

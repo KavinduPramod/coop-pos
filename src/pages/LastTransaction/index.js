@@ -4,6 +4,7 @@ import { Api } from '../../utils/Api';
 import Menu from '../../components/Menu';
 import Title from '../../components/Title';
 import html2canvas from 'html2canvas';
+import { saveAs } from 'file-saver';
 
 const LastTransactionPage = () => {
   const [loginUserBranchID, setLogInUserBranchID] = useState();
@@ -43,19 +44,17 @@ const LastTransactionPage = () => {
     setActiveTab(value);
   };
 
-  const handlePrintSummary = () => {
+  const handlePrintSummary = async () => {
     if (printElementRef.current) {
-      html2canvas(printElementRef.current).then(canvas => {
-        const imageData = canvas.toDataURL("image/png");
-        // Call the method to send the image data to the Android app
-        sendImageToAndroidApp(imageData);
-      });
+      const receiptData = printElementRef.current.innerText;
+      // Save receipt data to a text file
+      saveReceiptDataToFile(receiptData);
     }
   };
 
-  // Define JavaScript interface
-  const sendImageToAndroidApp = (imageData) => {
-    window.ReactNativeWebView.postMessage(imageData);
+  const saveReceiptDataToFile = (receiptData) => {
+    const blob = new Blob([receiptData], { type: 'text/plain;charset=utf-8' });
+    saveAs(blob, 'receipt.txt');
   };
 
 
