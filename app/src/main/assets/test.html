@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>HTML Element to Bitmap</title>
+	<style>
+		body {background-color: powderblue;}
+        h1 {color: red;}
+        p {color: blue;}
+		button {
+            width: 200px;
+            height: 50px;
+            background-color: green; /* Background color */
+            color: white; /* Text color */
+            border: none; /* Remove default border */
+            border-radius: 5px; /* Rounded corners */
+            cursor: pointer; /* Add cursor on hover */
+            font-size: 16px; /* Font size */
+            font-weight: bold; /* Bold font weight */
+            margin-top: 20px; /* Add some margin to top */
+        }
+
+	</style>
+	<script src="html2canvas.js"></script>
+
+</head>
+<body>
+<div id="elementToCapture">
+	<h1>Prithi Maharaja Prithii!</h1>
+
+</div>
+
+<canvas id="canvas" style="display:none;"></canvas>
+
+<p id="par"></p>
+<button id="printButton">Click</button>
+<script>
+	document.getElementById('printButton').addEventListener('click', function() {
+        // Get the HTML element to capture
+        var element = document.getElementById('elementToCapture');
+
+        // Get the canvas element
+        var canvas = document.getElementById('canvas');
+        var ctx = canvas.getContext('2d');
+
+        // Set canvas dimensions to match element
+        canvas.width = element.offsetWidth;
+        canvas.height = element.offsetHeight;
+
+        // Draw the element onto the canvas
+        html2canvas(element).then(function(canvas) {
+            // Convert canvas to Base64 string
+            var base64String = canvas.toDataURL("image/png");
+            // Call the Android function passing the Base64 string
+            lee.funAndroid(base64String);
+        });
+    }, false);
+
+
+</script>
+</body>
+</html>
