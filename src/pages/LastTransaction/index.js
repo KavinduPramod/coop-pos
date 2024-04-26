@@ -3,8 +3,7 @@ import './style.css';
 import { Api } from '../../utils/Api';
 import Menu from '../../components/Menu';
 import Title from '../../components/Title';
-import html2canvas from 'html2canvas';
-import { saveAs } from 'file-saver';
+import html2canvas from 'html2canvas'; // Import html2canvas library
 
 const LastTransactionPage = () => {
   const [loginUserBranchID, setLogInUserBranchID] = useState();
@@ -21,7 +20,7 @@ const LastTransactionPage = () => {
       setLogInUserBranchID(data.branch_id);
       setLogInUserID(data.user_id);
       setLogInUserName(data.user_name);
-      
+
       let date = new Date();
       let month = (date.getMonth() + 1) < 10 ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1);
       let to_date = date.getDate() < 10 ? "0" + date.getDate() + 1 : date.getDate();
@@ -32,7 +31,7 @@ const LastTransactionPage = () => {
         user_id: data.user_id,
         date: dateFormat
       };
-      
+
       const response = await Api.postRequest('/api/transaction/findTransaction', body);
       setIsLoading(false);
     };
@@ -45,18 +44,16 @@ const LastTransactionPage = () => {
   };
 
   const handlePrintSummary = async () => {
-    if (printElementRef.current) {
-      const receiptData = printElementRef.current.innerText;
-      // Save receipt data to a text file
-      saveReceiptDataToFile(receiptData);
-    }
+    // Capture the element and convert it into a bitmap image
+    html2canvas(printElementRef.current, { backgroundColor: "#ffffff" }).then(canvas => {
+      // Convert canvas to Base64 string
+      let base64String = canvas.toDataURL("image/png");
+      // Log the Base64 string to console
+      console.log(base64String);
+      // Call the Android function passing the Base64 string
+      window.lee.funAndroid(base64String);
+    });
   };
-
-  const saveReceiptDataToFile = (receiptData) => {
-    const blob = new Blob([receiptData], { type: 'text/plain;charset=utf-8' });
-    saveAs(blob, 'receipt.txt');
-  };
-
 
   return (
     <div className='viewContainer'>
@@ -75,13 +72,15 @@ const LastTransactionPage = () => {
         </div>
         <div className={activeTab === "transaction" ? "deactive" : "tab_active"}>
           <div className='row'>
-            <div className='col-12'>
-              <div className='card card_info card-info-black-and-white' ref={printElementRef}>
+            <div className='col-3'></div>
+            <div className='col-6'>
+              <div className='card card_info' ref={printElementRef}>
                 <div className='date'>{loginUserName}</div>
                 <div className='date'>2024.01.23</div>
                 <div className='price'>200000.00</div>
               </div>
             </div>
+            <div className='col-3'></div>
             <div className='col-12 pt-3 text-end'>
               <button className='btn btn-primary' onClick={handlePrintSummary}>Print Summary</button>
             </div>
