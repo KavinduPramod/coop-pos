@@ -87,6 +87,22 @@ const LastTransactionPage = () => {
           </div>
         </div>
       </div>
+      <div className={activeTab === "transaction" ? "deactive" : "tab_active"}>
+          <div className='row'>
+            <div className='col-3'></div>
+            <div className='col-6'>
+              <div className='card card_info' ref={printElementRef}>
+                <div className='date'>{loginUserName}</div>
+                <div className='date'>2024.01.23</div>
+                <div className='price'>200000.00</div>
+              </div>
+            </div>
+            <div className='col-3'></div>
+            <div className='col-12 pt-3 text-end'>
+              <button className='btn btn-primary' onClick={handlePrintSummary}>Print Summary</button>
+            </div>
+          </div>
+        </div>
       <Menu value={"Receipt"} />
     </div>
   );
