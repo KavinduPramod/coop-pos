@@ -45,13 +45,13 @@ const LastTransactionPage = () => {
 
   const handlePrintSummary = async () => {
     // Capture the element and convert it into a bitmap image
-    html2canvas(printElementRef.current, { backgroundColor: "#ffffff" }).then(canvas => {
-      // Convert canvas to Base64 string
-      let base64String = canvas.toDataURL("image/png");
-      // Log the Base64 string to console
-      console.log(base64String);
+    html2canvas(printElementRef.current, { backgroundColor: "#ffffff" }).then(canvas => {  // Get the login username, date, and price
+      const username = loginUserName;
+      const date = '2024.01.23';
+      const price = '200000.00'; 
+    
       // Call the Android function passing the Base64 string
-      window.lee.funAndroid(base64String);
+      window.lee.funAndroid(username, date, price);
     });
   };
 
@@ -87,22 +87,6 @@ const LastTransactionPage = () => {
           </div>
         </div>
       </div>
-      <div className={activeTab === "transaction" ? "deactive" : "tab_active"}>
-          <div className='row'>
-            <div className='col-3'></div>
-            <div className='col-6'>
-              <div className='card card_info' ref={printElementRef}>
-                <div className='date'>{loginUserName}</div>
-                <div className='date'>2024.01.23</div>
-                <div className='price'>200000.00</div>
-              </div>
-            </div>
-            <div className='col-3'></div>
-            <div className='col-12 pt-3 text-end'>
-              <button className='btn btn-primary' onClick={handlePrintSummary}>Print Summary</button>
-            </div>
-          </div>
-        </div>
       <Menu value={"Receipt"} />
     </div>
   );
