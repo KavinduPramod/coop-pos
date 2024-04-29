@@ -18,6 +18,8 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
 
 import com.sunmi.peripheral.printer.SunmiPrinterService;
@@ -38,8 +40,28 @@ public class MainActivity extends AppCompatActivity {
         mWebView.setWebChromeClient(new WebChromeClient());
         mWebView.setWebViewClient(new WebViewClientDemo()); // Use the custom WebViewClientDemo
         // Load the HTML file from assets
-        mWebView.loadUrl("https://dynamic-bavarois-c43f31.netlify.app/");
-        mWebView.addJavascriptInterface(new JsObject(), "lee");
+        // Check network connectivity
+        if (isNetworkAvailable()) {
+            // Load the HTML file from assets
+            mWebView.loadUrl("https://jade-travesseiro-c53f34.netlify.app/");
+            mWebView.addJavascriptInterface(new JsObject(), "lee");
+        } else {
+            // Handle offline scenario
+            Toast.makeText(getApplicationContext(), "You are offline. Please check your internet connection.", Toast.LENGTH_SHORT).show();
+            mWebView.loadUrl("file:///android_asset/test.html");
+            mWebView.addJavascriptInterface(new JsObject(), "lee");
+        }
+    }
+
+
+    // Method to check network connectivity
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager != null) {
+            NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+            return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+        }
+        return false;
     }
 
     // Custom WebViewClient to handle page loading and adding JavascriptInterface
@@ -54,43 +76,61 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // JavaScript Interface class to be used in WebView
+    // JavaScript Interface class to be used in WebView
     public class JsObject {
         // Method to be called from JavaScript
         @JavascriptInterface
-        public void funAndroid(String base64Data) {
+        public void funAndroid(String username, String date, String price) {
             // This method will be called when the JavaScript function is invoked
             // Use this method to handle the data received from JavaScript
             Toast.makeText(getApplicationContext(), "Received data from JavaScript", Toast.LENGTH_SHORT).show();
 
-            // Log the received Base64 string
-            Log.d("Base64String", base64Data);
-
-            // Convert Base64 string to Bitmap
-            try {
-                byte[] decodedString = Base64.decode(base64Data.substring(base64Data.indexOf(",") + 1), Base64.DEFAULT);
-                Bitmap originalBitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-
-                // Resize the bitmap to fit the paper width (48mm or 384 pixels)
-                Bitmap resizedBitmap = Bitmap.createScaledBitmap(originalBitmap,384 , originalBitmap.getHeight(), true);
-
-                if (resizedBitmap != null) {
-                    Log.d("Bitmap", "Bitmap resized successfully.");
-                } else {
-                    Log.d("Bitmap", "Failed to resize bitmap.");
-                }
-
-                // Additional logic for printing via AIDL or Bluetooth can be implemented here
-                if (isServiceConnected) {
-                    initializePrintService(resizedBitmap);
-                } else {
-                    Toast.makeText(getApplicationContext(), "Printer service is not connected yet", Toast.LENGTH_SHORT).show();
-                }
-            } catch (IllegalArgumentException e) {
-                e.printStackTrace();
-                // Handle the invalid Base64 string here
-                Toast.makeText(getApplicationContext(), "Invalid Base64 string", Toast.LENGTH_SHORT).show();
+            // Additional logic for printing via AIDL or Bluetooth can be implemented here
+            if (isServiceConnected) {
+                initializePrintService(username,date,price);
+            } else {
+                Toast.makeText(getApplicationContext(), "Printer service is not connected yet", Toast.LENGTH_SHORT).show();
             }
         }
+
+        // Method to initialize print service and print the receipt
+        private void initializePrintService(String username, String date, String price) {
+            if (woyouService == null) {
+                Toast.makeText(getApplicationContext(), "Printer service is not available", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            try {
+                // Set alignment to center
+                woyouService.setAlignment(1, null); // 1 for center alignment
+
+                // Set custom font and increase font size
+                woyouService.setFontName("gh", null); // Assuming "gh" is the custom font
+                woyouService.setFontSize(40, null); // Increase font size to 40
+
+                // Create the receipt content
+                String receiptContent = "";
+
+                // Bold labels and append to receipt content
+                receiptContent += "Username: " + username + "\n";
+                receiptContent += "Date: " + date + "\n"; // Assuming you want the date in string format
+                receiptContent += "Price: " + price + "\n"; // Assuming you want the price in string format
+
+                Log.d("PrintData", "Printing Initialized");
+                // Print the receipt content
+                woyouService.printText(receiptContent, null);
+                woyouService.lineWrap(3, null); // Advance the paper by 5 lines (adjust as needed)
+
+                // Disconnect the service after printing
+                unbindService(connService);
+                bindPrinterService();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+                Log.e("PrintingException", "Error occurred while printing", e);
+            }
+        }
+
+
+
     }
 
     // Binding service for printer
