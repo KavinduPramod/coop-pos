@@ -10,8 +10,8 @@ const findCustomerID = async (req, res) => {
                         ci_customer.full_name_ln1,pl_account.ref_account_number,pl_account.id  as plAccountId,ci_customer.address_ln1
                         FROM ci_customer
                         INNER JOIN pl_account ON ci_customer.id = pl_account.ci_customer_id
-                        WHERE nic = ? AND ci_customer.branch_id = ?`;
-        const result = await connection.query(query, [id,branch_id]);
+                        WHERE nic = ? OR customer_number = ? AND ci_customer.branch_id = ?`;
+        const result = await connection.query(query, [id,id,branch_id]);
         if (result.length == 0) {
             return 0;
         }
