@@ -106,22 +106,29 @@ const HomePage = () => {
   }, [lblPlAccountID,lblGlAccountID,lblSetID,txtEnterPrice,lblAccountName]);
 
   const selectAccountID = async (selectedValue) => {
-
+    // Set the selected account number in the state
     setSelectAccountID(selectedValue);
-    const body = { accountNumber:selectedValue};
-    const response =  await Api.getRequestBody('/api/receipt/findCustomerRefAccountNo', body);
-    // console.log(response);
-    setLoanType(response.loan_type);
-    setAccountNumber(response.ref_account_number);
-    setOpenDate(response.open_date);
-    setBalance(response.balance);
-    setInterest(response.interest);
-    setPenFee(response.penalty+response.fee);
-    setInstallment(response.capital_installment);
-    setPassdue(response.past_due_amount);
-    setPassdueDate(response.past_due_days);
-    setPlAccountID(response.pl_account_id);
-    setGlAccountID(response.gl_account_id);
+    console.log(selectedValue);
+    
+    // Make the API call with the selected account number
+    const body = { accountNumber: selectedValue };
+    const response = await Api.getRequestBody('/api/receipt/findCustomerRefAccountNo', body);
+  
+    // Update state with the response data
+    setLoanType(response.loan_type || "-");
+    setAccountNumber(response.ref_account_number || "-");
+    setOpenDate(response.open_date || "-");
+    setBalance(response.balance || "-");
+    setInterest(response.interest || "-");
+    setPenFee((response.penalty || 0) + (response.fee || 0) || "-");
+    setInstallment(response.capital_installment || "-");
+    setPassdue(response.past_due_amount || "-");
+    setPassdueDate(response.past_due_days || "-");
+    setPlAccountID(response.pl_account_id || "-");
+    setGlAccountID(response.gl_account_id || "-");
+
+    document.getElementById('areaDetailsView').style.display = 'block';
+
   };
 
   return (
@@ -166,7 +173,8 @@ const HomePage = () => {
               <label>Account No :</label>
             </div>
             <div className='col-7'>
-            <select className='form-select'  onChange={(e) => selectAccountID(e.target.value)}>
+            <select className='form-select' onChange={(e) => selectAccountID(e.target.value)}>
+              <option value="">Select an account</option>
               {Array.isArray(lblRefNumber) && lblRefNumber.map((ref, index) => (
                 <option key={index} value={ref.ref_account_number}>{ref.ref_account_number}</option>
               ))}
@@ -174,8 +182,8 @@ const HomePage = () => {
             </div>
           </div>
         </div>
+
         <div id='areaDetailsView'>
-          
           <div className='row mb-2'>
             <div className='col-5 text-end'>
               <label>Account Name : </label>

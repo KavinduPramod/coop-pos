@@ -43,6 +43,14 @@ const LastTransactionPage = () => {
     setActiveTab(value);
   };
 
+// Inside your component
+const [transactions, setTransactions] = useState([
+  { id: 1, date: '2024-05-01', amount: 1000, branchId: 123, customerName: 'John Doe', customerNumber: '1234567890' },
+  { id: 2, date: '2024-05-02', amount: 1500, branchId: 456, customerName: 'Jane Smith', customerNumber: '0987654321' },
+  { id: 3, date: '2024-05-03', amount: 2000, branchId: 789, customerName: 'Alice Johnson', customerNumber: '5678901234' },
+  // Add more dummy data as needed
+]);
+
   const handlePrintSummary = async () => {
     // Capture the element and convert it into a bitmap image
     html2canvas(printElementRef.current, { backgroundColor: "#ffffff" }).then(canvas => {  // Get the login username, date, and price
@@ -83,6 +91,33 @@ const LastTransactionPage = () => {
             <div className='col-3'></div>
             <div className='col-12 pt-3 text-end'>
               <button className='btn btn-primary' onClick={handlePrintSummary}>Print Summary</button>
+            </div>
+          </div>
+        </div>
+        <div className={activeTab === "summary" ? "deactive" : "tab_active"}>
+          <div className='row'>
+              <div className='table-container'>
+              <table className='table'>
+                <thead>
+                  <tr>
+                    <th>Transaction ID</th>
+                    <th>Amount</th>
+                    <th>Branch Id</th>
+                    <th>Customer Name</th>
+                    <th>Customer Number</th>
+                    <th>Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {transactions.map(transaction => (
+                    <tr key={transaction.id}>
+                      <td>{transaction.id}</td>
+                      <td>{transaction.date}</td>
+                      <td>{transaction.amount}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
