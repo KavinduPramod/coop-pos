@@ -21,22 +21,22 @@ const Menu = (props) => {
     <div>
         <div className="row menu_list">
             <div className="col-3">
-                <button className={`btn w-100 ${(activevalue=="home")?"active":""}`} type='button' onClick={() => handleClick("home")}>
+                <button className={`btn w-100 ${(activevalue==="home")?"active":""}`} type='button' onClick={() => handleClick("home")}>
                     <img src={Receipt} className="icon"/>
                 </button>
             </div>
             <div className="col-3">
-                <button className={`btn w-100 ${(activevalue=="transaction")?"active":""}`} type='button' onClick={() => handleClick("transaction")}>
+                <button className={`btn w-100 ${(activevalue==="transaction")?"active":""}`} type='button' onClick={() => handleClick("transaction")}>
                     <img src={Withdrow} className="icon"/>
                 </button>
             </div>
             <div className="col-3">
-                <button className={`btn w-100 ${(activevalue=="abc")?"active":""}`}>
+                <button className={`btn w-100 ${(activevalue==="abc")?"active":""}`}>
                     <img src={History} className="icon"/>
                 </button>
             </div>
             <div className="col-3">
-                <button className={`btn w-100 ${(activevalue=="abc")?"active":""}`}>
+                <button className={`btn w-100 ${(activevalue==="abc")?"active":""}`}>
                     <img src={View} className="icon"/>
                 </button>
             </div>

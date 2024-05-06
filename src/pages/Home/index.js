@@ -42,6 +42,11 @@ const HomePage = () => {
   }, [loginUserBranchID]);
 
   const _handleSubmit = useCallback(async () => {
+
+    if (!txtEnterNIC) {
+      alert('Enter NIC or Customer Number');
+      return;
+    }
     const body = { id: txtEnterNIC, branch_id: loginUserBranchID,type:"nic"};
     const response =  await Api.postRequest('/api/customer/findNIC', body);
     console.log(response);
@@ -60,24 +65,27 @@ const HomePage = () => {
 
   const _handleSave = useCallback(async () => {
     let date = new Date();
-    let month = (date.getMonth()+1)<10 ? "0"+(date.getMonth()+1):(date.getMonth()+1);
-    let to_date = date.getDate()<10 ? "0"+date.getDate()+1:date.getDate();
-    let dateFormat = date.getFullYear()+"-"+month+"-"+to_date;
-
-    let formatTime = date.toLocaleTimeString([], { hour: '2-digit', minute: "2-digit", second: "2-digit", hour12: false });
+    // Format date for entered_date, updated_date, and m_at
+    const enteredDate = date.toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
+    const updatedDate = enteredDate; // Use the same date for updated_date
+    const dateFormat = enteredDate;
+    const formatTime = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
     
+    if (!txtEnterPrice) {
+      alert('Enter Price');
+      return;
+    }
     const body = {
         id:0,
-        transaction_number:lblAccountName,
         pl_account_id:lblPlAccountID,
         temp_transaction_type:1,
-        entered_date:dateFormat,
-        updated_date:dateFormat,
+        entered_date:enteredDate,
+        updated_date:updatedDate,
         entered_by:loginUserID,
         updated_by:loginUserID,
         debit:0,
         credit:parseFloat(txtEnterPrice),
-        status:7,
+        status:2,
         m_at:dateFormat+" "+formatTime,
         m_by:loginUserID,
         gl_account_id:lblGlAccountID,
@@ -86,9 +94,10 @@ const HomePage = () => {
         address:"4.2,Hikkaduwa,Galle",
         cheque_num:"",
         description:"R-"+lblGlAccountID,
-        cash_bank_gl_account:0,
+        cash_bank_gl_account:null,
         update_type:2,
-        ci_customer_id:lblSetID
+        ci_customer_id:lblSetID,
+        branch_id:loginUserBranchID
     };
     const response =  await Api.postRequest('/api/receipt/saveReceiptDetails', body);
     if(response.code == 404){
