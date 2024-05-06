@@ -1,8 +1,5 @@
 const express = require('express')
-const {
-    findCustomerRefAccountNo,
-    saveReceiptDetails
-} = require('../controller/receiptController')
+const {findCustomerRefAccountNo,saveReceiptDetails} = require('../controller/receiptController')
 const {verifyUser} = require('../middleware/middleware')
 const router = express.Router()
 
