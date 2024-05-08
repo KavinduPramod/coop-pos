@@ -167,7 +167,7 @@ const LastTransactionPage = () => {
                     <tr key={index} className={index % 2 === 0 ? "even" : "odd"}>
                       <td>{transaction.transaction_number}</td>
                       <td>{transaction.customer_number}</td>
-                      <td>{transaction.credit}</td>
+                      <td>{transaction.credit.toFixed(2)}</td>
                       <td>{transaction.name_ln1}</td>
                       <td>{transaction.gl_account_id}</td>
                       <td>{transaction.ci_customer_id}</td>
