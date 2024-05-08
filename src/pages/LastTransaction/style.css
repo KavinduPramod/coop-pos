@@ -65,20 +65,22 @@
     display: none;
 }
 .table-container {
-    max-height: 300px;
+    max-height: 450px;
     overflow-x: auto; /* Enable horizontal scrolling */
     width: 100%; /* Set the width of the container */
-  }
-  
-  .table {
+}
+
+.table {
     width: 100%; /* Set the width of the table to fill its container */
     /* Other table styles */
-  }
+    border-collapse: collapse; /* Collapse borders */
+}
 
 .table th,
 .table td {
-  white-space: nowrap; /* Prevent text wrapping */
-  overflow: hidden; /* Hide overflow content */
-  text-overflow: ellipsis; /* Display ellipsis (...) for overflow text */
+    white-space: nowrap; /* Prevent text wrapping */
+    overflow: hidden; /* Hide overflow content */
+    text-overflow: ellipsis; /* Display ellipsis (...) for overflow text */
+    text-align: center;
+    padding: 8px; /* Add padding to cells */
 }
-  
