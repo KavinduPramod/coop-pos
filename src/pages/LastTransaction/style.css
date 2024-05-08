@@ -65,6 +65,7 @@
     display: none;
 }
 .table-container {
+    max-height: 300px;
     overflow-x: auto; /* Enable horizontal scrolling */
     width: 100%; /* Set the width of the container */
   }
@@ -73,4 +74,11 @@
     width: 100%; /* Set the width of the table to fill its container */
     /* Other table styles */
   }
+
+.table th,
+.table td {
+  white-space: nowrap; /* Prevent text wrapping */
+  overflow: hidden; /* Hide overflow content */
+  text-overflow: ellipsis; /* Display ellipsis (...) for overflow text */
+}
   

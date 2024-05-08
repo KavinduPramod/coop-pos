@@ -13,62 +13,75 @@ const LastTransactionPage = () => {
   const [activeTab, setActiveTab] = useState("transaction");
   const [currentDate, setCurrentDate] = useState("");
   const [transactions, setTransactions] = useState([]);
+  const [offset, setOffset] = useState(0); // State to keep track of offset
 
   const printElementRef = useRef(null);
 
+  const fetchData = async (fetchOffset) => {
+    // Use fetchOffset instead of offset
+    // This ensures that the initial offset is set correctly
+    
+    let data = JSON.parse(sessionStorage.getItem("userKey"));
+    setLogInUserBranchID(data.branch_id);
+    setLogInUserID(data.user_id);
+    setLogInUserName(data.user_name);
+  
+    let date = new Date();
+    let month =
+      date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+    let to_date = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+    let dateFormat = date.getFullYear() + "-" + month + "-" + to_date;
+  
+    setCurrentDate(dateFormat);
+  
+    const datax = await Api.postRequest("/api/transaction/findTransaction", {
+      branch_id: data.branch_id,
+      user_id: data.user_id,
+      date: dateFormat,
+      offset: fetchOffset, // Use fetchOffset instead of offset
+    });
+  
+    if (Array.isArray(datax)) {
+      if (fetchOffset === 0) {
+        // If fetching initial data, set transactions directly
+        setTransactions(datax);
+      } else {
+        // If fetching more data, append to existing transactions
+        setTransactions((prevTransactions) => [...prevTransactions, ...datax]);
+      }
+      // Increment the offset only when fetching more data
+      setOffset((prevOffset) => prevOffset + 10);
+    } else {
+      alert("Error fetching transactions");
+    }
+  
+    setIsLoading(false);
+  };
+  
   useEffect(() => {
-    const fetchData = async () => {
-      // Fetch user data and transactions on component mount
-      let data = JSON.parse(sessionStorage.getItem("userKey"));
-      setLogInUserBranchID(data.branch_id);
-      setLogInUserID(data.user_id);
-      setLogInUserName(data.user_name);
-
-      let date = new Date();
-      let month =
-        date.getMonth() + 1 < 10
-          ? "0" + (date.getMonth() + 1)
-          : date.getMonth() + 1;
-      let to_date = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
-      let dateFormat = date.getFullYear() + "-" + month + "-" + to_date;
-
-      setCurrentDate(dateFormat);
-
-      const body = {
-        branch_id: data.branch_id,
-        user_id: data.user_id,
-        date: dateFormat,
-      };
-
-      const datax = await Api.postRequest("/api/transaction/findTransaction", {
-        date: dateFormat,
-      });
-      setTransactions(datax); // Update the transactions state with the fetched data
-      console.log(datax);
-      setIsLoading(false);
-    };
-
-    fetchData();
+    // Fetch initial data with an offset of 0
+    fetchData(0);
   }, []);
-
+  
   const handleClick = (value) => {
     setActiveTab(value);
   };
 
   const handlePrintSummary = async () => {
-    // Capture the element and convert it into a bitmap image
     html2canvas(printElementRef.current, { backgroundColor: "#ffffff" }).then(
       (canvas) => {
-        // Get the login username, date, and price
         const username = loginUserName;
         const date = "2024.01.23";
         const price = "200000.00";
-
-        // Call the Android function passing the Base64 string
         window.lee.funAndroid(username, date, price);
       }
     );
   };
+
+  const handleLoadMore = () => {
+    fetchData(); // Fetch more transactions
+  };
+
 
   return (
     <div className="viewContainer">
@@ -147,6 +160,11 @@ const LastTransactionPage = () => {
               </table>
             </div>
           </div>
+        </div>
+        <div className="col-12 pt-3 text-end">
+          <button className="btn btn-primary" onClick={handleLoadMore}>
+            Load More
+          </button>
         </div>
       </div>
       <Menu value={"Receipt"} />
