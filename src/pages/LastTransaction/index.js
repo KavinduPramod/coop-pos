@@ -18,49 +18,48 @@ const LastTransactionPage = () => {
 
   const printElementRef = useRef(null);
 
-  const fetchData = async (fetchOffset) => {
-    // Use fetchOffset instead of offset
-    // This ensures that the initial offset is set correctly
+// Add a state to track the total number of transactions for the day
+const [totalTransactions, setTotalTransactions] = useState(0);
 
-    let data = JSON.parse(sessionStorage.getItem("userKey"));
-    setLogInUserBranchID(data.branch_id);
-    setLogInUserID(data.user_id);
-    setLogInUserName(data.user_name);
+const fetchData = async () => {
+  let data = JSON.parse(sessionStorage.getItem("userKey"));
+  setLogInUserBranchID(data.branch_id);
+  setLogInUserID(data.user_id);
+  setLogInUserName(data.user_name);
 
-    let date = new Date();
-    let month =
-      date.getMonth() + 1 < 10
-        ? "0" + (date.getMonth() + 1)
-        : date.getMonth() + 1;
-    let to_date = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
-    let dateFormat = date.getFullYear() + "-" + month + "-" + to_date;
+  let date = new Date();
+  let month =
+    date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+  let to_date = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+  let dateFormat = date.getFullYear() + "-" + month + "-" + to_date;
 
-    setCurrentDate(dateFormat);
+  setCurrentDate(dateFormat);
 
-    const datax = await Api.postRequest("/api/transaction/findTransaction", {
-      branch_id: data.branch_id,
-      user_id: data.user_id,
-      date: dateFormat,
-      offset: fetchOffset, // Use fetchOffset instead of offset
-    });
+  const datax = await Api.postRequest("/api/transaction/findTransaction", {
+    branch_id: data.branch_id,
+    user_id: data.user_id,
+    date: dateFormat,
+  });
 
-    if (Array.isArray(datax)) {
-      if (fetchOffset === 0) {
-        // If fetching initial data, set transactions directly
-        setTransactions(datax);
-      } else {
-        // If fetching more data, append to existing transactions
-        setTransactions((prevTransactions) => [...prevTransactions, ...datax]);
-        console.log(datax);
-      }
-      // Increment the offset only when fetching more data
-      setOffset((prevOffset) => prevOffset + 10);
-    } else {
-      alert("Error fetching transactions");
-    }
+  if (Array.isArray(datax)) {
+    setTotalTransactions(datax.length); // Set the total number of transactions
+    setTransactions(datax.slice(0, 10)); // Set initial transactions to display
+    setOffset(10); // Set initial offset to 10
+  } else {
+    alert("Error fetching transactions");
+  }
 
-    setIsLoading(false);
-  };
+  setIsLoading(false);
+};
+
+const handleLoadMore = () => {
+  if (transactions.length === totalTransactions) {
+    alert("All transactions within the day have been loaded");
+  } else {
+    fetchData(); // Fetch more transactions
+  }
+};
+
 
   useEffect(() => {
     // Fetch initial data with an offset of 0
@@ -92,10 +91,6 @@ const LastTransactionPage = () => {
         window.lee.funAndroid(username, date, price);
       }
     );
-  };
-
-  const handleLoadMore = () => {
-    fetchData(); // Fetch more transactions
   };
 
   return (
